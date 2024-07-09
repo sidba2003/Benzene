@@ -4,6 +4,10 @@ import static src.main.java.com.craftinginterpreters.lox.TokenType.MINUS;
 import static src.main.java.com.craftinginterpreters.lox.TokenType.PLUS;
 
 public class AstPrinter implements Expr.Visitor<String> {
+    public String generateTree(Expr expression){
+        return expression.accept(this);
+    }
+
     @Override
     public String visitBinaryExpr(Expr.Binary expr){
         return printTree(expr.operator.lexeme, expr.left, expr.right);
@@ -48,6 +52,6 @@ public class AstPrinter implements Expr.Visitor<String> {
             new Expr.Binary(new Expr.Unary(new Token(MINUS, "-", null, 0), new Expr.Literal(2)), new Token(PLUS, "+", null, 0), new Expr.Literal(2))
         );
 
-        System.out.println(expr.accept(new AstPrinter()));
+        System.out.println(new AstPrinter().generateTree(expr));
     }
 }
