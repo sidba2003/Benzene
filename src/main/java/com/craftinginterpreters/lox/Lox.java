@@ -10,7 +10,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Lox {
+    public static final Interpreter interpreter = new Interpreter();
+
     public static boolean hadError = false;
+    public static boolean hadRuntimeError = false;
 
     public static void main(String[] args) throws IOException {
         if (args.length > 1) {
@@ -28,6 +31,7 @@ public class Lox {
         run(new String(bytes, Charset.defaultCharset()));
 
         if (hadError) System.exit(65);
+        if (hadRuntimeError) System.exit(70);
     }
 
     private static void runPrompt() throws IOException {
@@ -52,7 +56,7 @@ public class Lox {
         Parser parser = new Parser(tokens);
         Expr expressionTree = parser.parse();
 
-        System.out.println(new AstPrinter().generateTree(expressionTree));
+        interpreter.interpret(expressionTree);
     }
 
     static void error(int line, String message) {
@@ -70,5 +74,10 @@ public class Lox {
         } else{
             report(token.line, " at '" + token.lexeme + "'", message);
         }
+    }
+
+    static void runtimeError(RuntimeError error){
+        System.err.println(error.getMessage() + "\n[line " + error.token.line +"]");
+        hadRuntimeError = true;
     }
 }
