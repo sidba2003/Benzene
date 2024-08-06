@@ -54,9 +54,9 @@ public class Lox {
 
         // For now, just print the tokens.
         Parser parser = new Parser(tokens);
-        Expr expressionTree = parser.parse();
+        List<Stmt> statements = parser.parse();
 
-        interpreter.interpret(expressionTree);
+        interpreter.interpret(statements);
     }
 
     static void error(int line, String message) {

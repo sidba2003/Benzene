@@ -2,14 +2,30 @@ package src.main.java.com.craftinginterpreters.lox;
 
 import static src.main.java.com.craftinginterpreters.lox.TokenType.SLASH;
 
-public class Interpreter implements Expr.Visitor<Object> {
-    void interpret(Expr expression){
+import java.util.List;;
+
+public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
+    void interpret(List<Stmt> statements){
         try {
-            Object value = evaluate(expression);
-            System.out.println(stringify(value));
+            for (Stmt stmt : statements){
+                execute(stmt);
+            }
         } catch (RuntimeError error){
             Lox.runtimeError(error);
         }
+    }
+
+    public Void visitExpressionStmt(Stmt.Expression statement){
+        evaluate(statement.expression);
+        return null;
+    }
+
+    @Override
+    public Void visitPrintStmt(Stmt.Print statement){
+        Object value = evaluate(statement.expression);
+        System.out.println(stringify(value));
+        return null;
+
     }
     @Override
     public Object visitLiteralExpr(Expr.Literal expr){
@@ -81,6 +97,10 @@ public class Interpreter implements Expr.Visitor<Object> {
         return object.toString();
     }
 
+    private void execute(Stmt statement){
+        statement.accept(this);
+    }
+    
     private Object evaluate(Expr expression){
         return expression.accept(this);
     }
