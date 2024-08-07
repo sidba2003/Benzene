@@ -1,11 +1,11 @@
-package src.main.java.com.craftinginterpreters.lox;
+package src.main.java.com.lang.benzene;
+
+import static src.main.java.com.lang.benzene.TokenType.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static src.main.java.com.craftinginterpreters.lox.TokenType.*;
 
 class Scanner {
     private static final Map<String, TokenType> keywords;
@@ -109,7 +109,7 @@ class Scanner {
             } else if (isAlpha(c)){
                 identifier();
             }else {
-                Lox.error(line, "unexpeted character.");
+                Benzene.error(line, "unexpeted character.");
             }
                 break;
         }
@@ -145,7 +145,7 @@ class Scanner {
         }
 
         if (isAtEnd()){
-            Lox.error(line, "Unterminiated string.");
+            Benzene.error(line, "Unterminiated string.");
             return;
         }
 

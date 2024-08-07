@@ -1,9 +1,9 @@
-package src.main.java.com.craftinginterpreters.lox;
+package src.main.java.com.lang.benzene;
+
+import static src.main.java.com.lang.benzene.TokenType.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static src.main.java.com.craftinginterpreters.lox.TokenType.*;
 
 class Parser {
     private static class ParseError extends RuntimeException {}
@@ -165,7 +165,7 @@ class Parser {
     }
 
     private ParseError error(Token token, String message){
-        Lox.error(token, message);
+        Benzene.error(token, message);
         return new ParseError();
     }
 

@@ -1,4 +1,4 @@
-package src.main.java.com.craftinginterpreters.lox;
+package src.main.java.com.lang.benzene;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Scanner;
 
-public class Lox {
+public class Benzene {
     public static final Interpreter interpreter = new Interpreter();
 
     public static boolean hadError = false;
@@ -17,7 +17,7 @@ public class Lox {
 
     public static void main(String[] args) throws IOException {
         if (args.length > 1) {
-            System.out.println("Usage: jlox [script]");
+            System.out.println("Usage: benzene [script]");
             System.exit(64);
         } else if (args.length == 1) {
             runFile(args[0]);
@@ -49,7 +49,7 @@ public class Lox {
     }
 
     private static void run(String source) {
-        src.main.java.com.craftinginterpreters.lox.Scanner scanner = new src.main.java.com.craftinginterpreters.lox.Scanner(source);
+        src.main.java.com.lang.benzene.Scanner scanner = new src.main.java.com.lang.benzene.Scanner(source);
         List<Token> tokens = scanner.scanTokens();
 
         // For now, just print the tokens.

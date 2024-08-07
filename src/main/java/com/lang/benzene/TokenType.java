@@ -1,4 +1,4 @@
-package src.main.java.com.craftinginterpreters.lox;
+package src.main.java.com.lang.benzene;
 
 enum TokenType {
     // Single-character tokens.

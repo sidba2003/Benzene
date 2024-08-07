@@ -1,6 +1,6 @@
-package src.main.java.com.craftinginterpreters.lox;
+package src.main.java.com.lang.benzene;
 
-import static src.main.java.com.craftinginterpreters.lox.TokenType.SLASH;
+import static src.main.java.com.lang.benzene.TokenType.SLASH;
 
 import java.util.List;;
 
@@ -11,7 +11,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
                 execute(stmt);
             }
         } catch (RuntimeError error){
-            Lox.runtimeError(error);
+            Benzene.runtimeError(error);
         }
     }
 

@@ -1,4 +1,4 @@
-package src.main.java.com.craftinginterpreters.lox;
+package src.main.java.com.lang.benzene;
 
 public class RuntimeError extends RuntimeException {
     final Token token;

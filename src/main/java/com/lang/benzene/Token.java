@@ -1,4 +1,4 @@
-package src.main.java.com.craftinginterpreters.lox;
+package src.main.java.com.lang.benzene;
 
 class Token {
     final TokenType type;
