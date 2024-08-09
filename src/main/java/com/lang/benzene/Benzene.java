@@ -52,7 +52,6 @@ public class Benzene {
         src.main.java.com.lang.benzene.Scanner scanner = new src.main.java.com.lang.benzene.Scanner(source);
         List<Token> tokens = scanner.scanTokens();
 
-        // For now, just print the tokens.
         Parser parser = new Parser(tokens);
         List<Stmt> statements = parser.parse();
 
