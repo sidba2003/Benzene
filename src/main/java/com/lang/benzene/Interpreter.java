@@ -18,7 +18,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
 
     public Void visitExpressionStmt(Stmt.Expression statement){
-        evaluate(statement.expression);
+        System.out.println(evaluate(statement.expression));
         return null;
     }
 
@@ -43,7 +43,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Object visitAssignExpr(Expr.Assign expr){
-        Object value = evaluate(expr);
+        Object value = evaluate(expr.value);
         environment.assign(expr.name, value);
 
         return value;
@@ -125,6 +125,25 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     private void execute(Stmt statement){
         statement.accept(this);
+    }
+
+    void executeBlock(List<Stmt> statements, Environment environment){
+        Environment previous = this.environment;
+        try {
+            this.environment = environment;
+
+            for (Stmt statement : statements){
+                execute(statement);
+            }
+        } finally {
+            this.environment = previous;
+        }
+    }
+
+    @Override 
+    public Void visitBlockStmt(Stmt.Block stmt){
+        executeBlock(stmt.statements, new Environment(environment));
+        return null;
     }
     
     private Object evaluate(Expr expression){
