@@ -16,9 +16,19 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             Benzene.runtimeError(error);
         }
     }
-
+    
+    @Override
     public Void visitExpressionStmt(Stmt.Expression statement){
         System.out.println(evaluate(statement.expression));
+        return null;
+    }
+
+    public Void visitIfStmt(Stmt.If stmt){
+        if (isTruthy(evaluate(stmt.condition))){
+            execute(stmt.thenBranch);
+        } else if (stmt.elseBranch != null){
+            execute(stmt.elseBranch);
+        }
         return null;
     }
 
@@ -53,6 +63,19 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     public Object visitLiteralExpr(Expr.Literal expr){
         return expr.value;
     } 
+
+    @Override
+    public Object visitLogicalExpr(Expr.Logical expr){
+        Object left = evaluate(expr.left);
+
+        if (expr.operator.type == TokenType.OR){
+            if (isTruthy(left)) return left;
+        } else{
+            if (!isTruthy(left)) return left;
+        }
+
+        return isTruthy(expr.right);
+    }
 
     @Override
     public Object visitGroupingExpr(Expr.Grouping expr){
