@@ -2,7 +2,7 @@ package src.main.java.com.lang.benzene;
 
 import static src.main.java.com.lang.benzene.TokenType.SLASH;
 
-import java.util.List;;
+import java.util.List;
 
 public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     private Environment environment = new Environment();
@@ -54,10 +54,21 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     @Override
     public Void visitWhileStmt(Stmt.While stmt){
         while (isTruthy(evaluate(stmt.condition))){
-            execute(stmt.body);
+            try{
+                execute(stmt.body);
+            } catch (BreakError error){
+                break;
+            }
         }
 
         return null;
+    }
+
+    @Override
+    public Void visitBreakStmt(Stmt.Break stmt){
+        int breakLine = stmt.token.line;
+
+        throw new BreakError(breakLine, "Encountered a break statement on line " + breakLine + ".");
     }
 
     @Override

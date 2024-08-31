@@ -57,12 +57,20 @@ class Parser {
     }
 
     private Stmt statement(){
+        if (match(BREAK)) return breakStatement();
         if (match(IF)) return ifStatement();
         if (match(PRINT)) return printStatement();
         if (match(WHILE)) return whileStatement();
         if (match(LEFT_BRACE)) return new Stmt.Block(block());
 
         return expressionStatement();
+    }
+
+    private Stmt breakStatement(){
+        Token breakToken = previous();
+        consume(SEMICOLON, "Expected ';' after 'break' keyword.");
+
+        return new Stmt.Break(breakToken);
     }
 
     private Stmt ifStatement(){
