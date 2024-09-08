@@ -1,73 +1,73 @@
-The syntax formalisation for Benzene is as follows:
+# Context-Free Grammar (CFG) for the Benzene
 
-program     ::= declaration* EOF ;
+This document describes the grammar rules used for the language.
 
-declaration ::= varDecl
-              | funDecl
-              | classDecl
-              | statement ;
+## Program Structure
+program ::= declaration* EOF
 
-varDecl     ::= "var" IDENTIFIER ( "=" expression )? ";" ;
+## Declarations
+declaration ::= varDecl | funDecl | classDecl | statement
 
-funDecl     ::= "fun" function ;
+varDecl ::= "var" IDENTIFIER ( "=" expression )? ";"
 
-function    ::= IDENTIFIER "(" parameters? ")" block ;
+funDecl ::= "fun" function
 
-parameters  ::= IDENTIFIER ( "," IDENTIFIER )* ;
+function ::= IDENTIFIER "(" parameters? ")" block
 
-classDecl   ::= "class" IDENTIFIER ( "<" IDENTIFIER )? "{"
-                function* 
-                "}" ;
+parameters ::= IDENTIFIER ( "," IDENTIFIER )*
 
-statement   ::= exprStmt
-              | printStmt
-              | block
-              | ifStmt
-              | whileStmt
-              | returnStmt ;
+classDecl ::= "class" IDENTIFIER ( "<" IDENTIFIER )? "{" function* "}"
 
-exprStmt    ::= expression ";" ;
+## Statements
+statement ::= exprStmt | printStmt | block | ifStmt | whileStmt | returnStmt
 
-printStmt   ::= "print" expression ";" ;
+exprStmt ::= expression ";"
 
-block       ::= "{" declaration* "}" ;
+printStmt ::= "print" expression ";"
 
-ifStmt      ::= "if" "(" expression ")" statement ( "else" statement )? ;
+block ::= "{" declaration* "}"
 
-whileStmt   ::= "while" "(" expression ")" statement ;
+ifStmt ::= "if" "(" expression ")" statement ( "else" statement )?
 
-returnStmt  ::= "return" expression? ";" ;
+whileStmt ::= "while" "(" expression ")" statement
 
-expression  ::= assignment ;
+returnStmt ::= "return" expression? ";"
 
-assignment  ::= IDENTIFIER "=" assignment
-              | logic_or ;
+## Expressions
+expression ::= assignment
 
-logic_or    ::= logic_and ( "or" logic_and )* ;
+## Logical and Comparison Operations
+assignment ::= IDENTIFIER "=" assignment | logic_or
 
-logic_and   ::= equality ( "and" equality )* ;
+logic_or ::= logic_and ( "or" logic_and )*
 
-equality    ::= comparison ( ( "!=" | "==" ) comparison )* ;
+logic_and ::= equality ( "and" equality )*
 
-comparison  ::= term ( ( ">" | ">=" | "<" | "<=" ) term )* ;
+equality ::= comparison ( ( "!=" | "==" ) comparison )*
 
-term        ::= factor ( ( "-" | "+" ) factor )* ;
+comparison ::= term ( ( ">" | ">=" | "<" | "<=" ) term )*
 
-factor      ::= unary ( ( "/" | "*" ) unary )* ;
+## Arithmetic Operations
 
-unary       ::= ( "!" | "-" ) unary
-              | call ;
+term ::= factor ( ( "-" | "+" ) factor )*
 
-call        ::= primary ( "(" arguments? ")" | "." IDENTIFIER )* ;
+factor ::= unary ( ( "/" | "" ) unary )
 
-arguments   ::= expression ( "," expression )* ;
+## Unary and Function Calls
 
-primary     ::= "true"
-              | "false"
-              | "nil"
-              | "this"
-              | NUMBER
-              | STRING
-              | IDENTIFIER
-              | "(" expression ")" ;
+unary ::= ( "!" | "-" ) unary | call
 
+call ::= primary ( "(" arguments? ")" | "." IDENTIFIER )*
+
+arguments ::= expression ( "," expression )*
+
+## Primary Expressions
+
+primary ::= "true" | "false" | "nil" | "this" | NUMBER | STRING | IDENTIFIER | "(" expression ")"
+
+### Explanation
+- **Program**: The entry point consists of multiple declarations followed by the `EOF`.
+- **Declarations**: These include variable, function, and class declarations, as well as statements.
+- **Statements**: Supported statements include expressions, print statements, blocks, if/else, while, and return.
+- **Expressions**: Built around assignments, logical operations, comparisons, and arithmetic operations.
+- **Primary Expressions**: Simple expressions like literals (`true`, `false`, `nil`), identifiers, and grouped expressions.
