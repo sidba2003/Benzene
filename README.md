@@ -1,4 +1,5 @@
-The interpreted implementation of Benzene uses a Top-Down parser to translate Benzene source code into an Abstract Syntax Tree.
+This interpreted implementation of Benzene uses a Top-Down parser to translate Benzene source code into an Abstract Syntax Tree.
+
 
 # Context-Free Grammar (CFG) for the Benzene
 
