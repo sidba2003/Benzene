@@ -5,7 +5,7 @@ import java.util.List;
 class BenzeneFunction implements BenzeneCallable{
     private final Stmt.Function declaration;
 
-    BenzeneFunction(Stmt.Function function){
+    BenzeneFunction(Stmt.Function declaration){
         this.declaration = declaration;
     }
 
