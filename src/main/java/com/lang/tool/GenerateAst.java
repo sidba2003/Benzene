@@ -15,6 +15,7 @@ public class GenerateAst {
 
         defineAst(outputDir, "Expr", Arrays.asList(
             "Assign : Token name, Expr value",
+            "Call : Expr callee, Token paren, List<Expr> arguments",
             "Binary : Expr left, Token operator, Expr right",
             "Grouping : Expr expression",
             "Literal : Object value",
@@ -27,6 +28,7 @@ public class GenerateAst {
             "Block : List<Stmt> statements",
             "If : Expr condition, Stmt thenBranch, Stmt elseBranch", 
             "Expression : Expr expression",
+            "Function : Token name, List<Token> params, List<Stmt> body",
             "Print : Expr expression",
             "Var : Token name, Expr initializer",
             "While : Expr condition, Stmt body",

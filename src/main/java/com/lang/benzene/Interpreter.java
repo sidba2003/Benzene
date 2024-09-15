@@ -2,10 +2,29 @@ package src.main.java.com.lang.benzene;
 
 import static src.main.java.com.lang.benzene.TokenType.SLASH;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
-    private Environment environment = new Environment();
+    final Environment globals = new Environment();
+    private Environment environment = globals;
+
+    Interpreter(){
+        globals.define("clock", new BenzeneCallable() {
+            @Override
+            public int arity(){return 0;}
+
+            @Override
+            public Object call(Interpreter interpreter, List<Object> arguments){
+                return (double)System.currentTimeMillis() / 1000.0;
+            }
+
+            @Override
+            public String toString(){
+                return "<native fn>";
+            }
+        });
+    }
 
     void interpret(List<Stmt> statements){
         try {
@@ -20,6 +39,13 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     @Override
     public Void visitExpressionStmt(Stmt.Expression statement){
         System.out.println(evaluate(statement.expression));
+        return null;
+    }
+
+    @Override
+    public Void visitFunctionStmt(Stmt.Function stmt){
+        BenzeneFunction function = new BenzeneFunction(stmt);
+        environment.define(stmt.name.lexeme, function);
         return null;
     }
 
@@ -235,5 +261,26 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         }
 
         return null;
+    }
+
+    @Override
+    public Object visitCallExpr(Expr.Call expr){
+        Object callee = evaluate(expr.callee);
+
+        List<Object> arguments = new ArrayList<>();
+        for (Expr argument : expr.arguments){
+            arguments.add(evaluate(argument));
+        }
+
+        if (!(callee instanceof BenzeneCallable)){
+            throw new RuntimeError(expr.paren, "Can only call function and classes.");
+        }
+
+        BenzeneCallable function = (BenzeneCallable)callee;
+
+        if (arguments.size() == function.arity()){
+            throw new RuntimeError(expr.paren, "Expected" + function.arity() + "arguments. But got" + arguments.size());
+        }
+        return function.call(this, arguments);
     }
 }
