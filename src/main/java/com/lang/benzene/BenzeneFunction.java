@@ -16,7 +16,16 @@ class BenzeneFunction implements BenzeneCallable{
         Environment environment = new Environment(closure);
 
         for (int i = 0; i < declaration.params.size(); i++){
-            environment.define(declaration.params.get(i).lexeme, arguments.get(i));
+            Object argument = arguments.get(i);
+
+            if (argument instanceof Stmt.Function){
+                BenzeneFunction function = new BenzeneFunction((Stmt.Function) argument, environment);
+                environment.define(declaration.params.get(i).lexeme, function);
+                
+                continue;
+            }
+
+            environment.define(declaration.params.get(i).lexeme, argument);
         }
 
         try{

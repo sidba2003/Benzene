@@ -104,7 +104,7 @@ class Parser {
         }
         
         consume(SEMICOLON, "Expect ':' after return value.");
-        
+
         return new Stmt.Return(keyword, value);
     }
 
@@ -272,14 +272,19 @@ class Parser {
     }
 
     private Expr finishCall(Expr callee){
-        List<Expr> arguments = new ArrayList<>();
+        List<Object> arguments = new ArrayList<>();
 
         if (!check(RIGHT_PAREN)){
             do {
                 if (arguments.size() > 255){
                     error(peek(), "can't have more than 255 arguments.");
                 }
-                arguments.add(expression());
+                
+                if (match(FUN)){
+                    arguments.add(function("function"));
+                } else{
+                    arguments.add(expression());
+                }
 
             } while (match(COMMA));
         }

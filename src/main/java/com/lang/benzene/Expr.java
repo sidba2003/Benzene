@@ -28,7 +28,7 @@ abstract class Expr {
         final Expr value;
     }
     static class Call extends Expr {
-        Call(Expr callee, Token paren, List<Expr> arguments) {
+        Call(Expr callee, Token paren, List<Object> arguments) {
             this.callee = callee;
             this.paren = paren;
             this.arguments = arguments;
@@ -41,7 +41,7 @@ abstract class Expr {
 
         final Expr callee;
         final Token paren;
-        final List<Expr> arguments;
+        final List<Object> arguments;
     }
     static class Binary extends Expr {
         Binary(Expr left, Token operator, Expr right) {

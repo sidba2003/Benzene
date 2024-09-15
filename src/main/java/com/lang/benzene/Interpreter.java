@@ -279,8 +279,14 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         Object callee = evaluate(expr.callee);
 
         List<Object> arguments = new ArrayList<>();
-        for (Expr argument : expr.arguments){
-            arguments.add(evaluate(argument));
+        for (Object argument : expr.arguments){
+            Object evaluatedArgument = argument;
+
+            if (argument instanceof Expr){
+                evaluatedArgument = evaluate((Expr) argument);
+            }
+
+            arguments.add(evaluatedArgument);
         }
 
         if (!(callee instanceof BenzeneCallable)){
