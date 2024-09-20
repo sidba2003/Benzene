@@ -41,5 +41,10 @@ class BenzeneFunction implements BenzeneCallable{
     public int arity(){
         return declaration.params.size();
     }
+
+    @Override
+    public String toString(){
+        return "<user defined function: " + this.declaration.name.lexeme + ">";
+    }
 }
 
