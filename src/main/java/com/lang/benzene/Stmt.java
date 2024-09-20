@@ -27,20 +27,20 @@ abstract class Stmt {
 
         final List<Stmt> statements;
     }
-    // static class Class extends Stmt {
-    //     Class(Token name, List<Stmt.Function> methods) {
-    //         this.name = name;
-    //         this.methods = methods;
-    //     }
+    static class Class extends Stmt {
+        Class(Token name, List<Stmt.Function> methods) {
+            this.name = name;
+            this.methods = methods;
+        }
 
-    //     @Override
-    //     <R> R accept(Visitor<R> visitor) {
-    //         return visitor.visitClassStmt(this);
-    //     }
+        @Override
+        <R> R accept(Visitor<R> visitor) {
+            return visitor.visitClassStmt(this);
+        }
 
-    //     final Token name;
-    //     final List<Stmt.Function> methods;
-    // }
+        final Token name;
+        final List<Stmt.Function> methods;
+    }
     static class If extends Stmt {
         If(Expr condition, Stmt thenBranch, Stmt elseBranch) {
             this.condition = condition;
