@@ -226,14 +226,14 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         return null;
     }
 
-    // @Override
-    // public Void visitClassStmt(Stmt.Class stmt){
-    //     environment.define(stmt.name.lexeme, null);
-    //     BenzeneClass klass = new BenzeneClass(stmt.name.lexeme);
-    //     environment.assign(stmt.name.lexeme, klass);
+    @Override
+    public Void visitClassStmt(Stmt.Class stmt){
+        environment.define(stmt.name.lexeme, null);
+        BenzeneClass klass = new BenzeneClass(stmt.name.lexeme);
+        environment.assign(stmt.name.lexeme, klass);
 
-    //     return null;
-    // }
+        return null;
+    }
     
     private Object evaluate(Expr expression){
         return expression.accept(this);
