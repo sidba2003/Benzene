@@ -42,7 +42,7 @@ returnStmt ::= "return" expression? ";"
 expression ::= assignment
 
 ## Logical and Comparison Operations
-assignment ::= IDENTIFIER "=" assignment | logic_or
+assignment ::= (call ".")? IDENTIFIER "=" assignment | logic_or
 
 logic_or ::= logic_and ( "or" logic_and )*
 
