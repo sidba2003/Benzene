@@ -135,6 +135,20 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
 
     @Override
+    public Object visitSetExpr(Expr.Set expr){
+        Object object = evaluate(expr.object);
+
+        if(!(object instanceof BenzeneInstance)){
+            throw new RuntimeError(expr.name, "Only instances have fields.");
+        }
+
+        Object value = evaluate(expr.value);
+        ((BenzeneInstance) object).set(expr.name, value);
+
+        return null;
+    }
+
+    @Override
     public Object visitGroupingExpr(Expr.Grouping expr){
         return evaluate(expr.expression);
     }
