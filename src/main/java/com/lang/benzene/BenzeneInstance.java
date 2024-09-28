@@ -20,6 +20,9 @@ public class BenzeneInstance {
         if (fields.containsKey(name.lexeme)){
             return fields.get(name.lexeme);
         }
+
+        BenzeneFunction method = klass.findmethod(name.lexeme);
+        if (method != null) return method;
         
         throw new RuntimeError(name, "Undefined property " + name.lexeme);
     }

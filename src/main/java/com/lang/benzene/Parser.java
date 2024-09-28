@@ -41,14 +41,19 @@ class Parser {
         consume(LEFT_BRACE, "Expect '{' after class name.");
         
         List<Stmt.Function> body = new ArrayList<>();
+        List<Stmt.Function> staticBody = new ArrayList<>();
 
         while (!check(RIGHT_BRACE) && !isAtEnd()){
+            if (match(STATIC)){
+                staticBody.add(function("static method"));
+                continue;
+            }
             body.add(function("methods"));
         }
         
         consume(RIGHT_BRACE, "Expect '}' after class body.");
 
-        return new Stmt.Class(name, body);
+        return new Stmt.Class(name, body, staticBody);
     }
 
     private Stmt varDeclaration(){

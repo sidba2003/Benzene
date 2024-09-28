@@ -3,6 +3,9 @@ package src.main.java.com.lang.benzene;
 import static src.main.java.com.lang.benzene.TokenType.SLASH;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.List;
 
 public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
@@ -243,7 +246,20 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     @Override
     public Void visitClassStmt(Stmt.Class stmt){
         environment.define(stmt.name.lexeme, null);
-        BenzeneClass klass = new BenzeneClass(stmt.name.lexeme);
+
+        Map<String, BenzeneFunction> methods = new HashMap<>();
+        for (Stmt.Function method : stmt.methods){
+            BenzeneFunction function = new BenzeneFunction(method, environment);
+            methods.put(method.name.lexeme, function);
+        }
+
+        Map<String, BenzeneFunction> staticMethods = new HashMap<>();
+        for (Stmt.Function staticMethod : stmt.staticMethods){
+            BenzeneFunction function = new BenzeneFunction(staticMethod, environment);
+            staticMethods.put(staticMethod.name.lexeme, function);
+        }
+
+        BenzeneClass klass = new BenzeneClass(stmt.name.lexeme, methods, staticMethods);
         environment.assign(stmt.name, klass);
 
         return null;
@@ -327,6 +343,15 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     @Override
     public Object visitGetExpr(Expr.Get expr){
         Object object = evaluate(expr.object);
+
+        if (object instanceof BenzeneClass){
+            BenzeneFunction staticFunction = ((BenzeneClass)object).findStaticMethod(expr.name.lexeme);
+            if (staticFunction == null){
+                throw new RuntimeError(expr.name, "value for " + expr.name.lexeme + " not found in class");
+            }
+            return staticFunction;
+        }
+
         if (object instanceof BenzeneInstance){
             return ((BenzeneInstance) object).get(expr.name);
         }
