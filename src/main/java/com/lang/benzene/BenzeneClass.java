@@ -25,9 +25,9 @@ public class BenzeneClass implements BenzeneCallable{
     BenzeneFunction findStaticMethod(String name){
         if (staticMethods.containsKey(name)){
             return staticMethods.get(name);
+        } else{
+            throw new RuntimeError(null, "value for " + name + " not found in class");
         }
-
-        return null;
     }
 
     @Override

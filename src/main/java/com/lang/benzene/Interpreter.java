@@ -346,9 +346,6 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
         if (object instanceof BenzeneClass){
             BenzeneFunction staticFunction = ((BenzeneClass)object).findStaticMethod(expr.name.lexeme);
-            if (staticFunction == null){
-                throw new RuntimeError(expr.name, "value for " + expr.name.lexeme + " not found in class");
-            }
             return staticFunction;
         }
 
