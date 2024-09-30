@@ -11,6 +11,13 @@ class BenzeneFunction implements BenzeneCallable{
         this.declaration = declaration;
     }
 
+    public BenzeneFunction bind(BenzeneInstance instance){
+        Environment environment = new Environment(closure);
+        environment.define("this", instance);
+        return new BenzeneFunction(declaration, environment);
+
+    }
+
     @Override
     public Object call(Interpreter interpreter, List<Object> arguments){
         Environment environment = new Environment(closure);

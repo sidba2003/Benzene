@@ -1,6 +1,7 @@
 package src.main.java.com.lang.benzene;
 
 import static src.main.java.com.lang.benzene.TokenType.SLASH;
+import static src.main.java.com.lang.benzene.TokenType.THIS;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -149,6 +150,11 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         ((BenzeneInstance) object).set(expr.name, value);
 
         return null;
+    }
+
+    @Override
+    public Object visitThisExpr(Expr.This expr){
+        return environment.get(expr.keyword);
     }
 
     @Override
