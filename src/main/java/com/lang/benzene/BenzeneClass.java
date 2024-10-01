@@ -33,12 +33,21 @@ public class BenzeneClass implements BenzeneCallable{
     @Override
     public Object call(Interpreter interpreter, List<Object> argumemts){
         BenzeneInstance instance = new BenzeneInstance(this);
+        BenzeneFunction initializer = findmethod("init");
+        if (initializer != null){
+            initializer.bind(instance).call(interpreter, argumemts);
+        }
         return instance;
     }
 
     @Override
     public int arity(){
-        return 0;
+        BenzeneFunction initializer = findmethod("init");
+        if (initializer == null){
+            return 0;
+        }
+
+        return initializer.arity();
     }
 
     @Override
