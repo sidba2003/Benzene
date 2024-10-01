@@ -21,10 +21,12 @@ function ::= IDENTIFIER "(" parameters? ")" block
 
 parameters ::= IDENTIFIER ( "," IDENTIFIER )*
 
-classDecl ::= "class" IDENTIFIER ( "<" IDENTIFIER )? "{" function* "}"
+classDecl ::= "class" IDENTIFIER "{" function* "}"
 
 ## Statements
-statement ::= exprStmt | printStmt | block | ifStmt | whileStmt | returnStmt
+statement ::= exprStmt | printStmt | break | block | ifStmt | whileStmt | returnStmt
+
+break ::= "break;"
 
 exprStmt ::= expression ";"
 
