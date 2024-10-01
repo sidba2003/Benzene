@@ -11,7 +11,7 @@ This document describes the grammar rules used for the language.
 program ::= declaration* EOF
 
 ## Declarations
-declaration ::= varDecl | funDecl | classDecl | statement
+declaration ::= varDecl | funDecl | statement
 
 varDecl ::= "var" IDENTIFIER ( "=" expression )? ";"
 
@@ -20,8 +20,6 @@ funDecl ::= "fun" function
 function ::= IDENTIFIER "(" parameters? ")" block
 
 parameters ::= IDENTIFIER ( "," IDENTIFIER )*
-
-classDecl ::= "class" IDENTIFIER "{" function* "}"
 
 ## Statements
 statement ::= exprStmt | printStmt | break | block | continue | ifStmt | whileStmt | returnStmt
