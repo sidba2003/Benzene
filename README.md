@@ -24,7 +24,9 @@ parameters ::= IDENTIFIER ( "," IDENTIFIER )*
 classDecl ::= "class" IDENTIFIER "{" function* "}"
 
 ## Statements
-statement ::= exprStmt | printStmt | break | block | ifStmt | whileStmt | returnStmt
+statement ::= exprStmt | printStmt | break | block | continue | ifStmt | whileStmt | returnStmt
+
+continue ::= "continue ;"
 
 break ::= "break;"
 
