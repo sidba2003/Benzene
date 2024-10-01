@@ -1,12 +1,11 @@
 package src.main.java.com.lang.benzene;
 
+
 import static src.main.java.com.lang.benzene.TokenType.SLASH;
-import static src.main.java.com.lang.benzene.TokenType.THIS;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.List;
 
 public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
