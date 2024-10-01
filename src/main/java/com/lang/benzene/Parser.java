@@ -91,7 +91,10 @@ class Parser {
     }
 
     private Stmt continueStatement(){
-        return new Stmt.Continue(previous());
+        Token continueToken = previous();
+        consume(SEMICOLON, "Expect ';' after 'continue' keyword");
+        
+        return new Stmt.Continue(continueToken);
     }
 
     private Stmt breakStatement(){
