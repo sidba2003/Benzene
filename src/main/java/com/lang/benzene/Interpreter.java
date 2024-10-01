@@ -317,11 +317,11 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
                 }
 
                 if (left instanceof Double && right instanceof String){
-                    return (String)left + right;
+                    return Double.toString((double)left) + right;
                 }
 
                 if (left instanceof String && right instanceof Double){
-                    return left + (String)right;
+                    return left + Double.toString((double)right);
                 }
 
                 throw new RuntimeError(expr.operator, "Each operand must be a string or a number.");
