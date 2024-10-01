@@ -30,6 +30,7 @@ class Scanner {
         keywords.put("while",  WHILE);
         keywords.put("break", BREAK);
         keywords.put("static", STATIC);
+        keywords.put("continue", CONTINUE);
     }
 
     private final String source;

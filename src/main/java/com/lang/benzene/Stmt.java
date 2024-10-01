@@ -14,7 +14,9 @@ abstract class Stmt {
         R visitVarStmt(Var stmt);
         R visitWhileStmt(While stmt);
         R visitBreakStmt(Break stmt);
+        R visitContinueStmt(Continue stmt);
     }
+
     static class Block extends Stmt {
         Block(List<Stmt> statements) {
             this.statements = statements;
@@ -149,6 +151,19 @@ abstract class Stmt {
         @Override
         <R> R accept(Visitor<R> visitor) {
             return visitor.visitBreakStmt(this);
+        }
+
+        final Token token;
+    }
+
+    static class Continue extends Stmt {
+        Continue(Token token) {
+            this.token = token;
+        }
+
+        @Override
+        <R> R accept(Visitor<R> visitor) {
+            return visitor.visitContinueStmt(this);
         }
 
         final Token token;

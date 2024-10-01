@@ -80,6 +80,7 @@ class Parser {
 
     private Stmt statement(){
         if (match(BREAK)) return breakStatement();
+        if (match(CONTINUE)) return continueStatement();
         if (match(IF)) return ifStatement();
         if (match(PRINT)) return printStatement();
         if (match(RETURN)) return returnStatement();
@@ -87,6 +88,10 @@ class Parser {
         if (match(LEFT_BRACE)) return new Stmt.Block(block());
 
         return expressionStatement();
+    }
+
+    private Stmt continueStatement(){
+        return new Stmt.Continue(previous());
     }
 
     private Stmt breakStatement(){
@@ -330,7 +335,7 @@ class Parser {
         }
 
         if (match(THIS)) return new Expr.This(previous());
-        
+
         if (match(IDENTIFIER)) return new Expr.Variable(previous());
 
         if (match(LEFT_PAREN)){

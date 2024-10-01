@@ -97,8 +97,10 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         while (isTruthy(evaluate(stmt.condition))){
             try{
                 execute(stmt.body);
-            } catch (BreakError error){
-                break;
+            } catch (RuntimeException error){
+                if (error instanceof ContinueError) continue;
+                else if (error instanceof BreakError) break;
+                else throw error;
             }
         }
 
@@ -110,6 +112,13 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         int breakLine = stmt.token.line;
 
         throw new BreakError(breakLine, "Encountered a break statement on line " + breakLine + ".");
+    }
+
+    @Override
+    public Void visitContinueStmt(Stmt.Continue stmt){
+        int continueLine = stmt.token.line;
+
+        throw new ContinueError(stmt.token.line, "Encountered a break statement on line " + continueLine + ".");
     }
 
     @Override
