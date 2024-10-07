@@ -2,20 +2,13 @@ package src.main.java.com.lang.benzene;
 
 import java.util.List;
 
-class BenzeneFunction implements BenzeneCallable{
-    private final Stmt.Function declaration;
+class BenzeneAnonymousFunction implements BenzeneCallable{
+    private final Expr.AnonymousFunction declaration;
     private final Environment closure;
 
-    BenzeneFunction(Stmt.Function declaration, Environment closure){
+    BenzeneAnonymousFunction(Expr.AnonymousFunction declaration, Environment closure){
         this.closure = closure;
         this.declaration = declaration;
-    }
-
-    public BenzeneFunction bind(BenzeneInstance instance){
-        Environment environment = new Environment(closure);
-        environment.define("this", instance);
-        return new BenzeneFunction(declaration, environment);
-
     }
 
     @Override

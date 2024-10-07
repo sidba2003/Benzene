@@ -38,6 +38,11 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             Benzene.runtimeError(error);
         }
     }
+
+    @Override
+    public Object visitAnonymousFunction(Expr.AnonymousFunction expr){
+        return new BenzeneAnonymousFunction(expr, environment);
+    }
     
     @Override
     public Void visitExpressionStmt(Stmt.Expression statement){
@@ -341,12 +346,10 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         Object callee = evaluate(expr.callee);
 
         List<Object> arguments = new ArrayList<>();
-        for (Object argument : expr.arguments){
+        for (Expr argument : expr.arguments){
             Object evaluatedArgument = argument;
 
-            if (argument instanceof Expr){
-                evaluatedArgument = evaluate((Expr) argument);
-            }
+            evaluatedArgument = evaluate(argument);
 
             arguments.add(evaluatedArgument);
         }

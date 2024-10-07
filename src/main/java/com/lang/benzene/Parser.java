@@ -307,7 +307,7 @@ class Parser {
     }
 
     private Expr finishCall(Expr callee){
-        List<Object> arguments = new ArrayList<>();
+        List<Expr> arguments = new ArrayList<>();
 
         if (!check(RIGHT_PAREN)){
             do {
@@ -315,11 +315,7 @@ class Parser {
                     error(peek(), "can't have more than 255 arguments.");
                 }
                 
-                if (match(FUN)){
-                    arguments.add(function("function"));
-                } else{
-                    arguments.add(expression());
-                }
+                arguments.add(expression());
 
             } while (match(COMMA));
         }
@@ -345,6 +341,30 @@ class Parser {
             Expr expr = expression();
             consume(RIGHT_PAREN, "Expect ')' after expression");
             return new Expr.Grouping(expr);
+        }
+        
+        // parsing the anonymous function
+        if (match(ANONYMOUS)){
+            consume(LEFT_PAREN, "Expect '(' after function name.");
+            List<Token> parameters = new ArrayList<>();
+            if (!check(RIGHT_PAREN)){
+                do{
+                    if (parameters.size() >= 255){
+                        error(peek(), "Can't have more than 255 parameters.");
+                    }
+
+                    parameters.add(
+                        consume(IDENTIFIER, "Expect parameter name.")
+                    );
+                } while (match(COMMA));
+            }
+
+            consume(RIGHT_PAREN, "Expect ')' after parameters.");
+
+            consume(LEFT_BRACE, "Expect '{' before anonymous function body.");
+            List<Stmt> body  = block();
+            
+            return new Expr.AnonymousFunction(parameters, body);
         }
 
         throw error(peek(), "Expect expression.");

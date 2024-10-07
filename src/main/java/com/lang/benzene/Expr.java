@@ -1,5 +1,8 @@
 package src.main.java.com.lang.benzene;
 
+import static src.main.java.com.lang.benzene.TokenType.IDENTIFIER;
+import static src.main.java.com.lang.benzene.TokenType.STRING;
+
 import java.util.List;
 
 abstract class Expr {
@@ -15,6 +18,23 @@ abstract class Expr {
         R visitThisExpr(This expr);
         R visitUnaryExpr(Unary expr);
         R visitVariableExpr(Variable expr);
+        R visitAnonymousFunction(AnonymousFunction expr);
+    }
+    static class AnonymousFunction extends Expr{
+        AnonymousFunction(List<Token> params, List<Stmt> body){
+            this.params = params;
+            this.body = body;
+            this.name = new Token(IDENTIFIER, "Anonymous Function", body, -1);
+        }
+
+        @Override
+        <R> R accept(Visitor<R> visitor) {
+            return visitor.visitAnonymousFunction(this);
+        }
+
+        List<Token> params;
+        List<Stmt> body;
+        Token name;
     }
     static class Assign extends Expr {
         Assign(Token name, Expr value) {
@@ -31,7 +51,7 @@ abstract class Expr {
         final Expr value;
     }
     static class Call extends Expr {
-        Call(Expr callee, Token paren, List<Object> arguments) {
+        Call(Expr callee, Token paren, List<Expr> arguments) {
             this.callee = callee;
             this.paren = paren;
             this.arguments = arguments;
@@ -44,7 +64,7 @@ abstract class Expr {
 
         final Expr callee;
         final Token paren;
-        final List<Object> arguments;
+        final List<Expr> arguments;
     }
     static class Get extends Expr {
         Get(Expr object, Token name) {

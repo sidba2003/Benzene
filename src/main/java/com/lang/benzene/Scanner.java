@@ -31,6 +31,7 @@ class Scanner {
         keywords.put("break", BREAK);
         keywords.put("static", STATIC);
         keywords.put("continue", CONTINUE);
+        keywords.put("anonymous", ANONYMOUS);
     }
 
     private final String source;
