@@ -21,3 +21,9 @@ Benzene supports the basic types of numbers (which represent Java's int and doub
   var x = "Hello, world!";
   var x = null;
 ```
+Since Benzene is a dynamically typed language, the types do not need to be specified.
+
+
+## Operations
+
+Benzene supprots various types of 
