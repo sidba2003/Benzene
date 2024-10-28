@@ -95,7 +95,6 @@ Classes are defined using the `class` keyword and the constructors are defined u
 
 Instance functions are defined using regular functions, but with `fun` ommitted. Static functions are defined using the `static` keyword followed by the instance function creation.
 
-And the 
 ```
   class a{
     init(){return 123;};
