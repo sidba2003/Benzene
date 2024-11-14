@@ -372,8 +372,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         Object object = evaluate(expr.object);
 
         if (object instanceof BenzeneClass){
-            BenzeneFunction staticFunction = ((BenzeneClass)object).findStaticMethod(expr.name.lexeme);
-            return staticFunction;
+            return ((BenzeneClass) object).get(expr.name.lexeme);
         }
 
         if (object instanceof BenzeneInstance){

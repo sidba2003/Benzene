@@ -22,7 +22,7 @@ public class BenzeneClass implements BenzeneCallable{
         return null;
     }
 
-    BenzeneFunction findStaticMethod(String name){
+    BenzeneFunction get(String name){
         if (staticMethods.containsKey(name)){
             return staticMethods.get(name);
         } else{
