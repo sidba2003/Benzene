@@ -30,10 +30,11 @@ abstract class Stmt {
         final List<Stmt> statements;
     }
     static class Class extends Stmt {
-        Class(Token name, List<Stmt.Function> methods, List<Stmt.Function> staticMethods) {
+        Class(Token name, Expr.Variable superClass, List<Stmt.Function> methods, List<Stmt.Function> staticMethods) {
             this.name = name;
             this.methods = methods;
             this.staticMethods = staticMethods;
+            this.superClass = superClass;
         }
 
         @Override
@@ -44,6 +45,7 @@ abstract class Stmt {
         final Token name;
         final List<Stmt.Function> methods;
         final List<Stmt.Function> staticMethods;
+        final Expr.Variable superClass;
     }
     static class If extends Stmt {
         If(Expr condition, Stmt thenBranch, Stmt elseBranch) {

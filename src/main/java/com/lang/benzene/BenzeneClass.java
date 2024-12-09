@@ -7,16 +7,22 @@ public class BenzeneClass implements BenzeneCallable{
     final String name;
     private final Map<String, BenzeneFunction> methods;
     private final Map<String, BenzeneFunction> staticMethods;
+    final BenzeneClass superClass;
 
-    BenzeneClass(String name, Map<String, BenzeneFunction> methods, Map<String, BenzeneFunction> staticMethods){
+    BenzeneClass(String name, BenzeneClass superClass, Map<String,  BenzeneFunction> methods, Map<String, BenzeneFunction> staticMethods){
         this.name = name;
         this.methods = methods;
         this.staticMethods = staticMethods;
+        this.superClass = superClass;
     }
 
     BenzeneFunction findmethod(String name){
         if (methods.containsKey(name)){
             return methods.get(name);
+        }
+
+        if (superClass != null){
+            return superClass.findmethod(name);
         }
 
         return null;
@@ -25,9 +31,13 @@ public class BenzeneClass implements BenzeneCallable{
     BenzeneFunction get(String name){
         if (staticMethods.containsKey(name)){
             return staticMethods.get(name);
-        } else{
-            throw new RuntimeError(null, "value for " + name + " not found in class");
+        } 
+        
+        if (superClass != null){
+            return superClass.get(name);
         }
+
+        return null;
     }
 
     @Override

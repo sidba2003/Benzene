@@ -265,6 +265,14 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitClassStmt(Stmt.Class stmt){
+        Object superClass = null;
+        if (stmt.superClass != null){
+            superClass = evaluate(stmt.superClass);
+            if (!(superClass instanceof BenzeneClass)){
+                throw new RuntimeError(stmt.superClass.name, "Superclass must be a class.");
+            }
+        }
+
         environment.define(stmt.name.lexeme, null);
 
         Map<String, BenzeneFunction> methods = new HashMap<>();
@@ -279,7 +287,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             staticMethods.put(staticMethod.name.lexeme, function);
         }
 
-        BenzeneClass klass = new BenzeneClass(stmt.name.lexeme, methods, staticMethods);
+        BenzeneClass klass = new BenzeneClass(stmt.name.lexeme, (BenzeneClass) superClass, methods, staticMethods);
         environment.assign(stmt.name, klass);
 
         return null;
